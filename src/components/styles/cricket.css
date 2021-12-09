@@ -1,0 +1,52 @@
+img.background {
+  width: 100%;
+  position: relative;
+  text-align: -webkit-center;
+}
+.score-card-div {
+  width: 45%;
+  background-color: rgba(0, 0, 0, 0.7);
+  text-align: -webkit-center;
+  margin-top: -750px;
+  position: relative;
+  color: white;
+  margin-left: 350px;
+  border-radius: 10px;
+}
+.score-card-title {
+  font-size: 50px;
+  font-weight: bold;
+  margin-top: 5px;
+}
+.score-board {
+    margin-top: -50px;
+  font-size: 100px;
+}
+.over-and-ball {
+  font-size: 50px;
+}
+#start-match,
+#stop-game {
+  margin-right: 10px;
+  height: 40px;
+  border-radius: 5px;
+  border-color: white;
+  background-color: blue;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+.button-div {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+.score-on-one-ball {
+  font-size: 20px;
+}
+.game-over{
+    font-size: 40px;
+    background-color: red;
+}
+.extra-details{
+    font-size: 20px;
+}
