@@ -1,0 +1,74 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Testing Cricket Component should match snapshot 1`] = `
+<Cricket>
+  <div
+    className="cricket-main-component"
+  >
+    <img
+      alt="stadium"
+      className="background"
+      src="stadium.jpg"
+    />
+    <div
+      className="score-card-div"
+    >
+      <p
+        className="score-card-title"
+      >
+        Score Card
+      </p>
+      <div
+        className="score-board"
+      >
+        0
+        -
+        0
+        <span
+          className="over-and-ball"
+        >
+          (
+          0
+          .
+          0
+          )
+        </span>
+      </div>
+      <div
+        className="extra-details"
+      >
+        Extras : 
+        0
+         
+        <br />
+        Striker : 
+        Batsman 1
+         
+        <br />
+        Non-Striker : 
+        Batsman 2
+         
+        <br />
+      </div>
+      <div
+        className="button-div"
+      >
+        <button
+          id="start-match"
+          onClick={[Function]}
+        >
+          Start Match
+        </button>
+        <span>
+          <button
+            id="stop-game"
+            onClick={[Function]}
+          >
+            Stop Game
+          </button>
+        </span>
+      </div>
+    </div>
+  </div>
+</Cricket>
+`;

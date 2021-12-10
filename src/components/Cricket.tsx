@@ -12,7 +12,7 @@
 // 7 = no ball, wide ball
 // 8 = wicket
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Stadium from "../assets/Image/stadium.jpg";
 import "./styles/cricket.css";
 
@@ -35,6 +35,9 @@ export const Cricket: React.FC = () => {
   const [nonStriker, setNonStriker] = useState<string>("Batsman 2");
   //  state to store game over flag
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [count, setCount] = useState<number>(0);
+
+  let interval: any;
 
   //  function to produce score
   const produceScore = () => {
@@ -44,6 +47,7 @@ export const Cricket: React.FC = () => {
     setRunInOneBall(score);
     // setting ball no
     setBallNo(ballNo + 1);
+    console.log(ballNo, "ball no");
     // if ball number is more than 5, then set the ball no as 0 and increment over by 1
     if (ballNo > 5) {
       setBallNo(0);
@@ -60,7 +64,12 @@ export const Cricket: React.FC = () => {
       // if number generated on a single ball is 7, then increase the extra run by one and decrease ball count by 1
       case 7:
         setExtraRun(extraRun + 1);
-        setBallNo(ballNo - 1);
+        // if ball no is 0, set ballNo as 0 else decrease ball no by 1
+        if (ballNo == 0) {
+          setBallNo(0);
+        } else {
+          setBallNo(ballNo - 1);
+        }
         score = 1;
         break;
       // if score on a single ball is 8, then it will count as a wicket and provide increment to wicket by 1, no score will be added
@@ -69,36 +78,48 @@ export const Cricket: React.FC = () => {
         score = 0;
         break;
     }
+  
+    // if wicket is 10 or over is 10, set the game over flag as true
+    if (over == 10 || wicket == 10) {
+      clearInterval(interval);
+      setGameOver(true);
+      setBallNo(0);
+      score = 0;
+      setStriker(striker);
+      setNonStriker(nonStriker);
+    }
+    // setting final score
     setFinalScore(finalScore + score);
   };
 
   // function for when start game is clicked
   const handleStartMatch = () => {
+    // interval = setInterval(() => produceScore(), 2000);
+    // console.log(interval, "interval")
     // call produceScore function
     produceScore();
-    // if over is 10 or wicket is 10, set game over flag as true
-    if (over == 10 || wicket == 10) {
-      setGameOver(true);
-      // setExtraRun as 0
-      setExtraRun(0);
-      // setRunInOneBall as 0
-      setRunInOneBall(0);
-    }
   };
+
+  // setInterval(()=>{
+  //  setCount(count+1)
+  // console.log(count, "count")
+  //  },5000)
 
   // function for when stop game is clicked
   const handleStopMatch = () => {
     // set all state to its initial state
+    clearInterval();
     setBallNo(0);
     setExtraRun(0);
     setFinalScore(0);
-    setNonStriker(nonStriker);
-    setStriker(striker);
+    setNonStriker("Batsman 2");
+    setStriker("Batsman 1");
     setWicket(0);
     setOver(0);
     setRunInOneBall(0);
     setGameOver(false);
   };
+
   return (
     <div className="cricket-main-component">
       <img className="background" src={Stadium} alt="stadium" />
@@ -111,29 +132,22 @@ export const Cricket: React.FC = () => {
             {/* shows over and ball number */}({over}.{ballNo})
           </span>
           {/* shows no scored in a single ball */}
-          <span className="score-on-one-ball">({runInOneBall})</span>
+          {/* <span className="score-on-one-ball">({runInOneBall})</span> */}
         </div>
         <div className="extra-details">
-          <tr>
-            {/* shows extra run scored because of wide or no ball */}
-            <td> Extras : {extraRun} </td>
-          </tr>
-          <tr>
-            {/* show the striker */}
-            <td>Striker : {striker} </td>
-          </tr>
-          <tr>
-            {/* shows non striker */}
-            <td> Non-Striker : {nonStriker}</td>
-          </tr>
+          {/* shows extra run scored because of wide or no ball */}
+          Extras : {extraRun} <br />
+          {/* show the striker */}
+          Striker : {striker} <br />
+          {/* shows non striker */}
+          Non-Striker : {nonStriker} <br />
         </div>
         {/* if game over flag is true, print game over and score related details */}
         {gameOver ? (
           <>
             <p className="game-over">Game Over</p>
             <p className="game-details">
-              Total Score: {finalScore}, Wickets: {wicket}, Over: {over}, Balls:
-              {ballNo}
+              Total Score: {finalScore}, Wickets: {wicket}, Over: {over}
             </p>
           </>
         ) : null}
