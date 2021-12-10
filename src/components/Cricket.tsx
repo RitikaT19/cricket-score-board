@@ -42,16 +42,18 @@ export const Cricket: React.FC = () => {
   //  function to produce score
   const produceScore = () => {
     // random score between 0-8 is being generated on every ball
-    let score = Math.floor(Math.random() * (9 - 0) + 0);
+    // let score = Math.floor(Math.random() * (11 - 0) + 0);
+    let score = 10;
     // setting the score for each individual ball
     setRunInOneBall(score);
     // setting ball no
     setBallNo(ballNo + 1);
-    console.log(ballNo, "ball no");
     // if ball number is more than 5, then set the ball no as 0 and increment over by 1
-    if (ballNo > 5) {
+    if (ballNo > 4) {
       setBallNo(0);
       setOver(over + 1);
+      setStriker(nonStriker);
+      setNonStriker(striker);
     }
     switch (score) {
       // if score on a single ball is 1, 3 or 5 rotate the strike
@@ -64,7 +66,7 @@ export const Cricket: React.FC = () => {
       // if number generated on a single ball is 7, then increase the extra run by one and decrease ball count by 1
       case 7:
         setExtraRun(extraRun + 1);
-        // if ball no is 0, set ballNo as 0 else decrease ball no by 1
+        // if ball no is 0, set ballNo as 0 else decrease ball no by 1   
         if (ballNo == 0) {
           setBallNo(0);
         } else {
@@ -75,12 +77,36 @@ export const Cricket: React.FC = () => {
       // if score on a single ball is 8, then it will count as a wicket and provide increment to wicket by 1, no score will be added
       case 8:
         setWicket(wicket + 1);
+        setStriker(`Batsman ${wicket + 3}`);
+        // setNonStriker(striker)
         score = 0;
         break;
+
+      case 9:
+        score = 0;
+        if (ballNo == 0) {
+          setBallNo(0);
+        } else {
+          setBallNo(ballNo - 1);
+        }
+        break;
+
+      // case for run out
+      case 10:
+        score = 0;
+        let runOutPlayer = Math.floor(Math.random() * (3 - 1) + 1);
+        if (runOutPlayer == 1) {
+          setWicket(wicket + 1);
+          setStriker(`Batsman ${wicket + 3}`);
+        } else {
+          setWicket(wicket + 1);
+          setNonStriker(`Batsman ${wicket + 3}`);
+        }
     }
-  
+
     // if wicket is 10 or over is 10, set the game over flag as true
-    if (over == 10 || wicket == 10) {
+    if (over == 10 || wicket > 9) {
+      setWicket(wicket);
       clearInterval(interval);
       setGameOver(true);
       setBallNo(0);
@@ -94,16 +120,8 @@ export const Cricket: React.FC = () => {
 
   // function for when start game is clicked
   const handleStartMatch = () => {
-    // interval = setInterval(() => produceScore(), 2000);
-    // console.log(interval, "interval")
-    // call produceScore function
     produceScore();
   };
-
-  // setInterval(()=>{
-  //  setCount(count+1)
-  // console.log(count, "count")
-  //  },5000)
 
   // function for when stop game is clicked
   const handleStopMatch = () => {
@@ -112,8 +130,8 @@ export const Cricket: React.FC = () => {
     setBallNo(0);
     setExtraRun(0);
     setFinalScore(0);
-    setNonStriker("Batsman 2");
-    setStriker("Batsman 1");
+    // setNonStriker("Batsman 2");
+    // setStriker("Batsman 1");
     setWicket(0);
     setOver(0);
     setRunInOneBall(0);
